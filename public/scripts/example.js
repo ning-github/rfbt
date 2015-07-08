@@ -16,7 +16,9 @@ var CommentList = React.createClass({
   render: function(){
     return (
       <div className="commentList">
-        HELLO WROLD I am a CommentList Compononent
+        // HELLO WROLD I am a CommentList Compononent
+        <Comment author='Bruce Wayne'> I am rich AND a text node so therefore a child</Comment>
+        <Comment author='Clark Kent'> I shoot *lasers* from my eyes. text nodes are children of their wrapping tags </Comment>
       </div>
     );
   }
@@ -32,11 +34,32 @@ var CommentForm = React.createClass({
   }
 });
 
+
+// Using Props
+
+var Comment = React.createClass({
+  render: function(){
+    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+    return (
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        <span dangerouslySetInnerHTML = {{__html: rawMarkup}}></span>
+      </div>
+    );
+  }
+});
+
+// Hook up the data model
+
+
+
+// render last
 React.render(
   <CommentBox />,
   document.getElementById('content')
 );
-
 
 // /**
 //  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.

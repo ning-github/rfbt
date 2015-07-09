@@ -18,7 +18,7 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
-  handleCommentSubmit: function(){
+  handleCommentSubmit: function(comment){
     // send to server and refresh list
     $.ajax({
       url: this.props.url,
@@ -26,7 +26,8 @@ var CommentBox = React.createClass({
       type: 'POST',
       data: comment,
       success: function(data){
-        this.setState({data:data});
+        console.log('this is success data: ', data);
+        this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString());
@@ -36,7 +37,7 @@ var CommentBox = React.createClass({
   componentDidMount: function(){
     this.loadCommentsFromServer();
     // reload comments from server time loop set by pollInterval property of CommentBox
-    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function(){
     return (
@@ -92,8 +93,8 @@ var data = [
 ];
 
 var CommentForm = React.createClass({
-  handleSubmit: function(event){
-    event.preventDefault();
+  handleSubmit: function(e){
+    e.preventDefault();
     // trim just removes the whitespace
     var author = React.findDOMNode(this.refs.author).value.trim();
     var text = React.findDOMNode(this.refs.text).value.trim();

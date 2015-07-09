@@ -19,6 +19,13 @@ var CommentBox = React.createClass({
     });
   },
   handleCommentSubmit: function(comment){
+    // optimistically add comment (don't have to wait for POST req complete)
+      // get current state of data
+    var comments = this.state.data;
+      // concat what we are just submitting now
+    var newComments = comments.concat([comment]);
+      // set the state with the concatted version
+    this.setState({data: newComments});
     // send to server and refresh list
     $.ajax({
       url: this.props.url,

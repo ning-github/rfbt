@@ -8,6 +8,7 @@ var CommentBox = React.createClass({
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      // type of ajax call is defaulted to GET
       cache: false,
       success: function(data) {
         this.setState({data: data});
@@ -18,7 +19,19 @@ var CommentBox = React.createClass({
     });
   },
   handleCommentSubmit: function(){
-    // TODO: send to server and refresh list
+    // send to server and refresh list
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: comment,
+      success: function(data){
+        this.setState({data:data});
+      }.bind(this),
+      error: function(xhr, status, err){
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
   },
   componentDidMount: function(){
     this.loadCommentsFromServer();
@@ -85,8 +98,9 @@ var CommentForm = React.createClass({
     var author = React.findDOMNode(this.refs.author).value.trim();
     var text = React.findDOMNode(this.refs.text).value.trim();
 
-    // TODO: send info to server
-
+    // send info to server
+    // onCommentSubmit was a property put on <CommentForm /> in CommentBox's render
+    this.props.onCommentSubmit({author: author, text: text});
     // clear the fields after submission
     React.findDOMNode(this.refs.author).value = '';
     React.findDOMNode(this.refs.text).value = '';    
@@ -94,8 +108,8 @@ var CommentForm = React.createClass({
   },
   render: function(){
     console.log('this is this.refs: ', this.refs);
-  // NOTE: each ref is a reference the actual component INSTANCE (not just descr.)
-  //  eg) this.refs.author 
+    // NOTE: each ref is a reference the actual component INSTANCE (not just descr.)
+    //  eg) this.refs.author 
     return (
       <form className="commentForm" onSubmit={this.handleSubmit}>
         <input placeholder="Your name" ref="author"/>

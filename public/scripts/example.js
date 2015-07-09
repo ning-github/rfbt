@@ -17,10 +17,13 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
+  handleCommentSubmit: function(){
+    // TODO: send to server and refresh list
+  },
   componentDidMount: function(){
     this.loadCommentsFromServer();
     // reload comments from server time loop set by pollInterval property of CommentBox
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    //setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function(){
     return (
@@ -28,7 +31,7 @@ var CommentBox = React.createClass({
         Hello World! I am a CommentBox
         <h1>Comments</h1>
         <CommentList data={this.state.data}/>
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
       </div> 
     );
   }
@@ -47,16 +50,6 @@ var CommentList = React.createClass({
     console.log('array of nodes: ', commentNodes);
     return (
       <div>{commentNodes}</div>
-    );
-  }
-});
-
-var CommentForm = React.createClass({
-  render: function(){
-    return (
-      <div className="commentForm">
-        Hello world, I am a CommentFORM compoenent
-      </div>
     );
   }
 });
@@ -86,17 +79,32 @@ var data = [
 ];
 
 var CommentForm = React.createClass({
+  handleSubmit: function(event){
+    event.preventDefault();
+    // trim just removes the whitespace
+    var author = React.findDOMNode(this.refs.author).value.trim();
+    var text = React.findDOMNode(this.refs.text).value.trim();
+
+    // TODO: send info to server
+
+    // clear the fields after submission
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';    
+    return;
+  },
   render: function(){
+    console.log('this is this.refs: ', this.refs);
+  // NOTE: each ref is a reference the actual component INSTANCE (not just descr.)
+  //  eg) this.refs.author 
     return (
-      <form className="commentForm">
-        <input placeholder="Your name"/>
-        <input placeholder="Say something"/>
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input placeholder="Your name" ref="author"/>
+        <input placeholder="Say something" ref="text"/>
         <input type="submit" value="Post"/>
       </form>
     )
   }
 });
-
 
 // render last
 React.render(

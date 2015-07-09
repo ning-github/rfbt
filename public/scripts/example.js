@@ -79,11 +79,23 @@ var Comment = React.createClass({
 
 // Hook up the data model
   // eventually this should be json that comes from the server
-var data = [
-  {author: 'Bruce Wayne', text: 'I am rich AND a text node so therefore a child'},
-  {author: 'Clark Kent', text: 'I shoot *lasers* from my eyes. text nodes are children of their wrapping tags'},
-  {author: 'Hal Jordan', text: 'In brighest day...'}
-];
+// var data = [
+//   {author: 'Bruce Wayne', text: 'I am rich AND a text node so therefore a child'},
+//   {author: 'Clark Kent', text: 'I shoot *lasers* from my eyes. text nodes are children of their wrapping tags'},
+//   {author: 'Hal Jordan', text: 'In brighest day...'}
+// ];
+
+var CommentForm = React.createClass({
+  render: function(){
+    return (
+      <form className="commentForm">
+        <input placeholder="Your name"/>
+        <input placeholder="Say something"/>
+        <input type="submit" value="Post"/>
+      </form>
+    )
+  }
+});
 
 
 // render last

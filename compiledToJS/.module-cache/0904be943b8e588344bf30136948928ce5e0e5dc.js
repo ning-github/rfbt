@@ -1,108 +1,108 @@
-var CommentBox = React.createClass({
-  getInitialState: function(){
-    return {
-      data: []
-    }
-  },
-  loadCommentsFromServer: function(){
-    $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      cache: false,
-      success: function(data) {
-        this.setState({data: data});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  componentDidMount: function(){
-    this.loadCommentsFromServer();
-    // reload comments from server time loop set by pollInterval property of CommentBox
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  },
-  render: function(){
-    return (
-      <div className = "commentBox">
-        Hello World! I am a CommentBox
-        <h1>Comments</h1>
-        <CommentList data={this.state.data}/>
-        <CommentForm />
-      </div> 
-    );
-  }
-});
+// var CommentBox = React.createClass({
+//   getInitialState: function(){
+//     return {
+//       data: []
+//     }
+//   },
+//   loadCommentsFromServer: function(){
+//     $.ajax({
+//       url: this.props.url,
+//       dataType: 'json',
+//       cache: false,
+//       success: function(data) {
+//         this.setState({data: data});
+//       }.bind(this),
+//       error: function(xhr, status, err) {
+//         console.error(this.props.url, status, err.toString());
+//       }.bind(this)
+//     });
+//   },
+//   componentDidMount: function(){
+//     this.loadCommentsFromServer();
+//     // reload comments from server time loop set by pollInterval property of CommentBox
+//     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+//   },
+//   render: function(){
+//     return (
+//       <div className = "commentBox">
+//         Hello World! I am a CommentBox
+//         <h1>Comments</h1>
+//         <CommentList data={this.state.data}/>
+//         <CommentForm />
+//       </div> 
+//     );
+//   }
+// });
 
 
-var CommentList = React.createClass({
-  render: function(){
-    var commentNodes = this.props.data.map(function(eachComment){
-      return (
-        <Comment author={eachComment.author}>
-          {eachComment.text}
-        </Comment>
-      );
-    });
-    console.log('array of nodes: ', commentNodes);
-    return (
-      <div>{commentNodes}</div>
-    );
-  }
-});
+// var CommentList = React.createClass({
+//   render: function(){
+//     var commentNodes = this.props.data.map(function(eachComment){
+//       return (
+//         <Comment author={eachComment.author}>
+//           {eachComment.text}
+//         </Comment>
+//       );
+//     });
+//     console.log('array of nodes: ', commentNodes);
+//     return (
+//       <div>{commentNodes}</div>
+//     );
+//   }
+// });
 
-var CommentForm = React.createClass({
-  render: function(){
-    return (
-      <div className="commentForm">
-        Hello world, I am a CommentFORM compoenent
-      </div>
-    );
-  }
-});
-
-
-// Using Props
-var Comment = React.createClass({
-  render: function(){
-    var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
-    return (
-      <div className="comment">
-        <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
-        <span dangerouslySetInnerHTML = {{__html: rawMarkup}}></span>
-      </div>
-    );
-  }
-});
-
-// Hook up the data model
-  // eventually this should be json that comes from the server
-var data = [
-  {author: 'Bruce Wayne', text: 'I am rich AND a text node so therefore a child'},
-  {author: 'Clark Kent', text: 'I shoot *lasers* from my eyes. text nodes are children of their wrapping tags'},
-  {author: 'Hal Jordan', text: 'In brighest day...'}
-];
-
-var CommentForm = React.createClass({
-  render: function(){
-    return (
-      <form className="commentForm">
-        <input placeholder="Your name"/>
-        <input placeholder="Say something"/>
-        <input type="submit" value="Post"/>
-      </form>
-    )
-  }
-});
+// var CommentForm = React.createClass({
+//   render: function(){
+//     return (
+//       <div className="commentForm">
+//         Hello world, I am a CommentFORM compoenent
+//       </div>
+//     );
+//   }
+// });
 
 
-// render last
-React.render(
-  <CommentBox url="comments.json" pollInterval={2000}/>,
-  document.getElementById('content')
-);
+// // Using Props
+// var Comment = React.createClass({
+//   render: function(){
+//     var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+//     return (
+//       <div className="comment">
+//         <h2 className="commentAuthor">
+//           {this.props.author}
+//         </h2>
+//         <span dangerouslySetInnerHTML = {{__html: rawMarkup}}></span>
+//       </div>
+//     );
+//   }
+// });
+
+// // Hook up the data model
+//   // eventually this should be json that comes from the server
+// var data = [
+//   {author: 'Bruce Wayne', text: 'I am rich AND a text node so therefore a child'},
+//   {author: 'Clark Kent', text: 'I shoot *lasers* from my eyes. text nodes are children of their wrapping tags'},
+//   {author: 'Hal Jordan', text: 'In brighest day...'}
+// ];
+
+// var CommentForm = React.createClass({
+//   render: function(){
+//     return (
+//       <form className="commentForm">
+//         <input placeholder="Your name"/>
+//         <input placeholder="Say something"/>
+//         <input type="submit" value="Post"/>
+//       </form>
+//     )
+//   }
+// });
+
+
+// // render last
+// React.render(
+//   <CommentBox url="comments.json" pollInterval={2000}/>,
+//   document.getElementById('content')
+// );
 
 // /**
 //  * This file provided by Facebook is for non-commercial testing and evaluation purposes only.
